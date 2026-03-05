@@ -7,7 +7,7 @@ const translations = {
       tag: "Your Mind in 3 Steps",
       headline: "Do less. Achieve more.",
       sub: "Manage your mind in 3 steps with 2026 aesthetics. Designed for a high-performance life, free from chaos.",
-      cta: "Download Free",
+      cta: "$9.99 - Download",
       cta2: "View on GitHub",
     },
     quiet: {
@@ -58,7 +58,7 @@ const translations = {
     pricing: {
       headline: "No subscription. No hidden fees. Just focus.",
       sub: "Pay once, own it forever. A completely transparent business model that doesn't harvest your data. Download FocusTabs today to quiet your mind in 3 steps.",
-      cta: "Download Free",
+      cta: "$9.99 - Download",
     },
     tech: {
       headline: "FAANG-level local architecture.",
@@ -75,7 +75,7 @@ const translations = {
       tag: "Zihninizi 3 Adımda Yönetin",
       headline: "Daha az yap, daha fazlasını başar.",
       sub: "2026 estetiğiyle zihninizi 3 adımda yönetin. Karmaşadan uzak, yüksek performanslı bir yaşam için tasarlandı.",
-      cta: "Ücretsiz İndir",
+      cta: "9.99 Dolar - İndir",
       cta2: "GitHub'da Görüntüle",
     },
     quiet: {
@@ -126,7 +126,7 @@ const translations = {
     pricing: {
       headline: "Abonelik yok. Gizli ücret yok. Sadece odaklanın.",
       sub: "Bir kere öde, sonsuza dek senin olsun. Veri hasadı yapmayan, tamamen şeffaf bir iş modeli. Zihninizi 3 adımda sessizleştirmek için FocusTabs'i bugün indirin.",
-      cta: "Ücretsiz İndir",
+      cta: "9.99 Dolar - İndir",
     },
     tech: {
       headline: "FAANG seviyesinde yerel mimari.",
