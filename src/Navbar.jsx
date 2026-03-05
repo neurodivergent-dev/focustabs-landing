@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import "./Navbar.css";
 
 const translations = {
   en: {
@@ -19,6 +20,7 @@ const translations = {
 
 export default function Navbar({ currentLang, onLangChange, onNavigate, theme }) {
   const t = translations[currentLang];
+  const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
     { label: t.home, id: "home" },
@@ -27,54 +29,86 @@ export default function Navbar({ currentLang, onLangChange, onNavigate, theme })
     { label: t.tech, id: "tech" },
   ];
 
-  return (
-    <nav style={{ 
-      position: "sticky", 
-      top: 0, 
-      zIndex: 100, 
-      background: "rgba(5,2,15,0.85)", 
-      backdropFilter: "blur(20px)", 
-      borderBottom: `1px solid ${theme.border}`, 
-      padding: "14px 32px", 
-      display: "flex", 
-      justifyContent: "space-between", 
-      alignItems: "center" 
-    }}>
-      <div 
-        style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
-        onClick={() => onNavigate && onNavigate("home")}
-      >
-        <div style={{ width: 32, height: 32, borderRadius: 10, background: `linear-gradient(135deg,${theme.primary},${theme.secondary})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 900, color: "#fff" }}>Fo</div>
-        <span style={{ fontWeight: 700, fontSize: 16, letterSpacing: -0.5, color: "#fff" }}>FocusTabs</span>
-      </div>
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+    if (!isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  };
 
-      <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
-        {navItems.map((item) => (
-          <span 
-            key={item.id} 
-            onClick={() => onNavigate && onNavigate(item.id)}
-            style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, cursor: "pointer", transition: "color 0.2s" }}
-            onMouseEnter={e => e.target.style.color = theme.accent}
-            onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.6)"}
-          >
-            {item.label}
-          </span>
-        ))}
-        
-        <button
-          onClick={() => onLangChange(currentLang === "en" ? "tr" : "en")}
-          style={{ background: `${theme.primary}25`, border: `1px solid ${theme.primary}66`, borderRadius: 20, padding: "4px 14px", color: theme.accent, fontSize: 12, fontWeight: 700, cursor: "pointer" }}
-        >
-          {currentLang === "en" ? "🇹🇷 TR" : "🇬🇧 EN"}
-        </button>
-        
-        <button 
-          onClick={() => window.open("https://play.google.com/store/apps/details?id=com.melihcandemir.focustabs", "_blank")}
-          style={{ background: `linear-gradient(135deg,${theme.primary},${theme.secondary})`, border: "none", borderRadius: 20, padding: "8px 18px", color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer" }}
-        >
-          {t.download}
-        </button>
-      </div>
-    </nav>
+  const handleNavigate = (id) => {
+    onNavigate && onNavigate(id);
+    setIsOpen(false);
+    document.body.style.overflow = "unset";
+  };
+
+  const handleLangChange = () => {
+    onLangChange(currentLang === "en" ? "tr" : "en");
+    // setIsOpen(false); // Optional: close menu on lang change
+  };
+
+  // Close menu on resize if it's open
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 860 && isOpen) {
+        setIsOpen(false);
+        document.body.style.overflow = "unset";
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isOpen]);
+
+  return (
+    <>
+      <nav className="navbar" style={{ borderBottom: `1px solid ${theme.border}` }}>
+        <div className="nav-brand" onClick={() => handleNavigate("home")}>
+          <div className="nav-logo" style={{ background: `linear-gradient(135deg,${theme.primary},${theme.secondary})` }}>Fo</div>
+          <span style={{ fontWeight: 700, fontSize: 16, letterSpacing: -0.5, color: "#fff" }}>FocusTabs</span>
+        </div>
+
+        <div className={`nav-links ${isOpen ? "active" : ""}`}>
+          {navItems.map((item) => (
+            <span 
+              key={item.id} 
+              onClick={() => handleNavigate(item.id)}
+              className="nav-link"
+              style={{ transition: "color 0.2s" }}
+              onMouseEnter={e => e.target.style.color = theme.accent}
+              onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.6)"}
+            >
+              {item.label}
+            </span>
+          ))}
+          
+          <div className="nav-buttons">
+            <button
+              onClick={handleLangChange}
+              className="lang-btn"
+              style={{ background: `${theme.primary}25`, border: `1px solid ${theme.primary}66`, color: theme.accent }}
+            >
+              {currentLang === "en" ? "🇹🇷 TR" : "🇬🇧 EN"}
+            </button>
+            
+            <button 
+              onClick={() => window.open("https://play.google.com/store/apps/details?id=com.melihcandemir.focustabs", "_blank")}
+              className="download-btn"
+              style={{ background: `linear-gradient(135deg,${theme.primary},${theme.secondary})` }}
+            >
+              {t.download}
+            </button>
+          </div>
+        </div>
+
+        <div className={`menu-toggle ${isOpen ? "active" : ""}`} onClick={toggleMenu}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+      <div className={`overlay ${isOpen ? "active" : ""}`} onClick={toggleMenu}></div>
+    </>
   );
 }
