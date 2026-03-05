@@ -258,7 +258,73 @@ function App({ onNavigate, lang, setLang, theme, currentTheme, setTheme }) {
       {/* QUIET YOUR MIND */}
       <section style={{ padding: "100px 32px", maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", gap: 80, flexWrap: "wrap", justifyContent: "center" }}>
         <div style={{ flex: "1 1 300px", minWidth: 280 }}>
-          <PhoneMockup theme={theme}><AppScreen theme={theme} color="#160d30" /></PhoneMockup>
+          <PhoneMockup theme={theme}>
+            <div style={{ background: "#160d30", padding: 16, minHeight: 380 }}>
+              {/* Header */}
+              <div style={{ background: `linear-gradient(135deg,${theme.primary},${theme.secondary})`, borderRadius: 16, padding: 16, marginBottom: 12 }}>
+                <div style={{ color: "#fff", fontWeight: 700, fontSize: 18 }}>Takvim</div>
+                <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 11 }}>Track your goals</div>
+              </div>
+
+              {/* Calendar */}
+              <div style={{ background: "#fff", borderRadius: 16, padding: 12, marginBottom: 10 }}>
+                {/* Month nav */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <span style={{ fontSize: 11, color: "#888" }}>{"<"}</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "#111" }}>March 2026</span>
+                  <span style={{ fontSize: 11, color: "#888" }}>{">"}</span>
+                </div>
+
+                {/* Day headers */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", marginBottom: 4 }}>
+                  {["Su","Mo","Tu","We","Th","Fr","Sa"].map(d => (
+                    <div key={d} style={{ textAlign: "center", fontSize: 9, color: "#aaa", fontWeight: 600 }}>{d}</div>
+                  ))}
+                </div>
+
+                {/* Days */}
+                {[
+                  [null,null,null,null,null,null,1],
+                  [2,3,4,5,6,7,8],
+                  [9,10,11,12,13,14,15],
+                  [16,17,18,19,20,21,22],
+                  [23,24,25,26,27,28,29],
+                  [30,31,null,null,null,null,null],
+                ].map((week, wi) => (
+                  <div key={wi} style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", marginBottom: 2 }}>
+                    {week.map((day, di) => (
+                      <div key={di} style={{
+                        textAlign: "center",
+                        fontSize: 10,
+                        padding: "3px 0",
+                        borderRadius: "50%",
+                        background: day === 3 ? theme.primary : "transparent",
+                        color: day === 3 ? "#fff" : day ? "#333" : "transparent",
+                        fontWeight: day === 3 ? 700 : 400,
+                      }}>{day || ""}</div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              {/* Selected day */}
+              <div style={{ background: "#fff", borderRadius: 14, padding: "10px 14px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                  <div style={{ background: theme.primary, borderRadius: 8, padding: "3px 8px", color: "#fff", fontSize: 11, fontWeight: 700 }}>03</div>
+                  <span style={{ fontSize: 11, color: "#555" }}>Tuesday, March 3, 2026</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", border: `3px solid #f59e0b`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontSize: 9, fontWeight: 800, color: "#f59e0b" }}>100%</span>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: "#f59e0b" }}>100%</div>
+                    <div style={{ fontSize: 10, color: "#888" }}>3 / 3 goals completed</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </PhoneMockup>
         </div>
         <div style={{ flex: "1 1 300px", maxWidth: 480 }}>
           <div style={{ color: theme.accent, fontWeight: 700, fontSize: 12, letterSpacing: 2, marginBottom: 12, textTransform: "uppercase" }}>Core Philosophy</div>
